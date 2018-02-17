@@ -1,35 +1,69 @@
-# Desafio para Estágio
+# Code Challenge
 
-Olá, tudo bem?
+Primeiro vamos te contar uma breve história!
 
-Obrigado pelo interesse em aprender com a gente!
+Ultimamente nossos usuários estão com medo de perder suas carteiras de vacinação.
 
-Aqui no Minha Vida gostamos de usar tudo que conhecemos para ajudar as pessoas.
-Por isso, sua missão será construir um site CRUD (Create, Read, Update, Delete) de uma **carteira de vacinação**.
+Por isso, fomos solicitados para o desenvolvimento de uma aplicação web para a administração de vacinas, e você vai nos ajudar!
 
-## Linguagem
+## O que você precisa fazer
 
-Você é livre para utilizar a linguagem de programação que quiser.
+Ao abrir a aplicação o usuário precisa cadastrar pessoas, e associar vacinas a essas pessoas.
 
-## Layout
+Uma pessoa tem que ter:
 
-O que achar melhor. Lembrando que gostamos de ver coisas bonitas :)
+```
+{
+  "name": "Matias",
+  "age": 21,
+  "photo": "http://sitedaimagemdaoraquevocevaipordeperfilénoiscarai.com.br/imagemzaçoDEPERFIL.jpg",
+  "vaccines": []
+}
+```
 
+E uma vacina tem que ter:
 
-## Especificação
+```
+{
+  "name": "Tríplice Viral",
+  "appliedAt": "10/05/2006",
+  "createdAt": "20/07/2016",
+  "updatedAt": "25/12/2018" //Última data de atualização no sistema
+}
+```
 
-Para cadastrar uma aplicação no sistema, o usuário deverá digitar os seguintes campos:
-
--   Nome da vacina (máximo 200 caracteres) - *ex: "Tríplice Viral"*
--   Data que a pessoa fez a aplicação - *ex: 10/05/2006*
--   Data do cadastro no seu site
--   Data da última atualização
-
-Você pode adicionar qualquer outro campo que quiser.
+Lembrando que essas entidades que estamos apresentando devem servir como base, você pode adicionar qualquer outro campo que quiser, desde que faça sentido.
 
 Todos os campos devem conter validação.
 
+Uma entidade que pode ser adicionada é a de Usuário caso vá fazer a aplicação com autenticação.
+
+## Layout
+
+O Layout é a seu critério, faça o que achar que é o melhor, contanto que seja responsivo!
+
+## Tecnologias
+
+### Obrigatório
+
+ - .NET Core
+ - Docker
+ - Conexão com Banco de dados, banco de dados a sua escolha
+ 
+ #### Sugestões: 
+ 
+  - Teste Unitário
+  - Uso de cache
+  - Login com Autenticação
+  - Uso de tecnologias atuais de Front-End
+  - Uso de framework Javascript/CSS
+  - Uso de Pré-Processadores Javascript/CSS
+
 ## O que vamos avaliar
+
+Vamos avaliar tudo que for feito. Dê o seu melhor.
+
+Preferimos que você entregue menos coisas com uma qualidade maior do que o inverso.
 
 Além de avaliarmos o seu código, vamos avaliar o seu produto como um todo. Ou seja, também olharemos coisas como usabilidade, layout, performance e etc.
 
