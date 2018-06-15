@@ -8,7 +8,7 @@ So, in order help our users with this problem, it's was request a web applicatio
 
 ## What you'll do
 
-You'll create a application that let's our users to Create, Read, Update and Delete their registries.
+You'll create a application that allow our users to Create, Read, Update and Delete their registries.
 
 A user should have:
 
@@ -25,20 +25,20 @@ Inside vaccines we expect:
 
 ```
 {
-  "name": "Tríplice Viral",
+  "name": "Viral",
   "appliedAt": "10/05/2006",
   "createdAt": "20/07/2016",
-  "updatedAt": "25/12/2018" //Última data de atualização no sistema
+  "updatedAt": "25/12/2018" //last registry update
 }
 ```
 
 Of course you have the liberty to increment data that you believe this application should have, but it has to make sense!
 
-For example, you may have a UserData with login and authentication info from the user.
+For example, you may have a UserData with login and authentication information from the user.
 
 ## Layout
 
-Well, let free your imagination and do the interface that your heart desire, just remember that it needs to be responsive (Mobile FTW).
+Well, free your imagination and develop the interface you believe it fits the best, just remember that it needs to be responsive (Mobile FTW).
 
 ## Technologies
 
@@ -61,9 +61,9 @@ Well, let free your imagination and do the interface that your heart desire, jus
 
 We'll check everthing, give us your best shot ;)
 
-It's best for us less content with quality then otherwise, so focus on the core requirements first.
+It's best for us less content with quality then otherwise, so focus on the core requirements first before moving to the suggested features.
 
-We'll not only look your code, we'll evaluate other things like UX, UI, patterns, performance, etc.
+We'll not only look your code, we'll take in consideration also things like UX, UI, patterns, performance, etc.
 
 ## How to get started
 
