@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Configurations;
 
 namespace MinhaVida.CodeChallege.VaccinationManagement.API
 {
@@ -19,37 +16,24 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            builder.AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddWebApi(options =>
+            services.AddOptions();
+
+            services.AddMvc(options =>
             {
                 options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
-                options.UseCentralRoutePrefix(new RouteAttribute("api/v{version}"));
             });
 
-            services.AddAutoMapperSetup();
-
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "Vaccination Management",
-                    Description = "Vaccination Management API Swagger surface",
-                    Contact = new Contact { Name = "Renan Costa", Email = "renan.rodcosta@gmail.com"},
-                    License = new License { Name = "MIT" }
-                });
-            });
-            
-            RegisterServices(services);
+            services.AddSwaggerConfiguration();
+            services.AddDependencyInjection();
         }
 
         public void Configure(IApplicationBuilder app,
@@ -57,12 +41,8 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
                               ILoggerFactory loggerFactory,
                               IHttpContextAccessor accessor)
         {
-            loggerFactory.AddConsole();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             app.UseCors(c =>
             {
@@ -72,7 +52,6 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
             });
 
             app.UseStaticFiles();
-            app.UseAuthentication();
             app.UseMvc();
 
             app.UseSwagger();
@@ -80,11 +59,6 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
             {
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "Vaccination Management API v1.0");
             });
-        }
-
-        private static void RegisterServices(IServiceCollection services)
-        {
-            NativeInjectorBootStrapper.RegisterServices(services);
         }
     }
 
