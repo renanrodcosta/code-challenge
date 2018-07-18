@@ -32,6 +32,8 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
                 options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
             });
 
+            services.AddMongo(Configuration.GetSection("Mongo"));
+
             services.AddSwaggerConfiguration();
             services.AddDependencyInjection();
         }

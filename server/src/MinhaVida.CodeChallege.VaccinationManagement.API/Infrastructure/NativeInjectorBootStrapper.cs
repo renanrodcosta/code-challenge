@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Repositories;
 
 namespace MinhaVida.CodeChallege.VaccinationManagement.API.Infrastructure
 {
@@ -9,6 +10,8 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Infrastructure
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient(svc => svc.GetService<IHttpContextAccessor>().HttpContext);
+
+            services.AddScoped<PeopleRepository>();
         }
     }
 }

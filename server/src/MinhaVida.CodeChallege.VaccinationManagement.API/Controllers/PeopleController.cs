@@ -1,41 +1,126 @@
 using Microsoft.AspNetCore.Mvc;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Commands.People;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
 {
     [Route("api/v1/[controller]")]
-    public class PeopleController: Controller
+    public class PeopleController : Controller
     {
-        // GET api/values
+        private readonly PeopleRepository peopleRepository;
+        private readonly BlobRepository blobRepository;
+
+        public PeopleController(PeopleRepository peopleRepository,
+                                BlobRepository blobRepository)
+        {
+            this.peopleRepository = peopleRepository;
+            this.blobRepository = blobRepository;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<Person>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var people = await peopleRepository.GetAsync();
+            return people;
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<Person> Get(string id)
         {
-            return "value";
+            Person person = await peopleRepository.GetAsync(id);
+            return person;
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post([FromBody]PeopleCommand command)
         {
+            string defaultUrlImage = "";
+
+            var person = new Person(command);
+            person.ChangePhoto(defaultUrlImage);
+            await peopleRepository.AddAsync(person);
+
+            var location = $"{Request.Path}/api/v1/people/{person.Id}";
+            return Created(location, person);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put(string id, [FromBody]PeopleCommand command)
         {
+            Person person = await peopleRepository.GetAsync(id);
+            if (person == null)
+                return new NotFoundResult();
+
+            person.Apply(command);
+            await peopleRepository.UpdateAsync(person);
+
+            return new OkObjectResult(person);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(string id, [FromBody]ChangePhotoCommand command)
         {
+            Person person = await peopleRepository.GetAsync(id);
+            if (person == null)
+                return new NotFoundResult();
+
+            string urlPhoto = await blobRepository.UploadAsync("", "");
+            person.ChangePhoto(urlPhoto);
+
+            await peopleRepository.UpdateAsync(person);
+
+            return new OkObjectResult(person);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task Delete(string id)
+        {
+            await peopleRepository.DeleteAsync(id);
+        }
+
+        [HttpPost("{id}/vaccines")]
+        public async Task<IActionResult> Post(string id, [FromBody]AddVaccineCommand command)
+        {
+            Person person = await peopleRepository.GetAsync(id);
+            if (person == null)
+                return new NotFoundResult();
+
+            person.Apply(command);
+
+            await peopleRepository.UpdateAsync(person);
+
+            return new OkObjectResult(person);
+        }
+
+        [HttpPut("{id}/vaccines")]
+        public async Task<IActionResult> Put(string id, [FromBody]UpdateVaccineCommand command)
+        {
+            Person person = await peopleRepository.GetAsync(id);
+            if (person == null)
+                return new NotFoundResult();
+
+            person.Apply(command);
+
+            await peopleRepository.UpdateAsync(person);
+
+            return new OkObjectResult(person);
+        }
+
+        [HttpDelete("{id}/vaccines/{vaccineId}")]
+        public async Task<IActionResult> DeleteVaccine(string id, string vaccineId)
+        {
+            Person person = await peopleRepository.GetAsync(id);
+            if (person == null)
+                return new NotFoundResult();
+
+            person.RemoveVaccine(vaccineId);
+
+            await peopleRepository.UpdateAsync(person);
+
+            return new OkObjectResult(person);
         }
     }
 }
