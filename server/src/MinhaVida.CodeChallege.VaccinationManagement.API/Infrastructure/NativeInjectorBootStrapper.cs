@@ -12,6 +12,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Infrastructure
             services.AddTransient(svc => svc.GetService<IHttpContextAccessor>().HttpContext);
 
             services.AddScoped<PeopleRepository>();
+            services.AddScoped<BlobRepository>();
         }
     }
 }

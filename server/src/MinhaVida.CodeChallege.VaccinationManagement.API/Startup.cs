@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Configurations;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Infrastructure;
 
 namespace MinhaVida.CodeChallege.VaccinationManagement.API
 {
@@ -33,9 +34,16 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
             });
 
             services.AddMongo(Configuration.GetSection("Mongo"));
+            services.Configure<StorageOptions>(Configuration.GetSection("Storage"));
 
             services.AddSwaggerConfiguration();
             services.AddDependencyInjection();
+
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
+
         }
 
         public void Configure(IApplicationBuilder app,

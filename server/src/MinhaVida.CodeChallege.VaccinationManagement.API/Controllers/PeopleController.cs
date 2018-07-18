@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Attributes;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Commands.People;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -64,19 +66,21 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpPatch("{id}")]
-        [ValidateModelState]
-        public async Task<IActionResult> Patch(string id, [FromBody]ChangePhotoCommand command)
+        public async Task<IActionResult> Patch(string id, IFormFile file)
         {
             Person person = await peopleRepository.GetAsync(id);
             if (person == null)
                 return new NotFoundResult();
 
-            string urlPhoto = await blobRepository.UploadAsync("", "");
-            person.ChangePhoto(urlPhoto);
+            using (var stream = file.OpenReadStream())
+            {   
+                string urlPhoto = await blobRepository.SaveAsync(stream, "people", file.FileName);
+                person.ChangePhoto(urlPhoto);
 
-            await peopleRepository.UpdateAsync(person);
+                await peopleRepository.UpdateAsync(person);
 
-            return new OkObjectResult(person);
+                return new OkObjectResult(person); 
+            }
         }
 
         [HttpDelete("{id}")]
