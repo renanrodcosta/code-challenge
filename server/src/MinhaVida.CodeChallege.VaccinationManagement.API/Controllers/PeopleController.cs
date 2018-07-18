@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Attributes;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Commands.People;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Repositories;
@@ -35,6 +36,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpPost]
+        [ValidateModelState]
         public async Task<IActionResult> Post([FromBody]PeopleCommand command)
         {
             string defaultUrlImage = "";
@@ -48,6 +50,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [ValidateModelState]
         public async Task<IActionResult> Put(string id, [FromBody]PeopleCommand command)
         {
             Person person = await peopleRepository.GetAsync(id);
@@ -61,6 +64,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpPatch("{id}")]
+        [ValidateModelState]
         public async Task<IActionResult> Patch(string id, [FromBody]ChangePhotoCommand command)
         {
             Person person = await peopleRepository.GetAsync(id);
@@ -76,12 +80,14 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ValidateModelState]
         public async Task Delete(string id)
         {
             await peopleRepository.DeleteAsync(id);
         }
 
         [HttpPost("{id}/vaccines")]
+        [ValidateModelState]
         public async Task<IActionResult> Post(string id, [FromBody]AddVaccineCommand command)
         {
             Person person = await peopleRepository.GetAsync(id);
@@ -96,6 +102,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpPut("{id}/vaccines")]
+        [ValidateModelState]
         public async Task<IActionResult> Put(string id, [FromBody]UpdateVaccineCommand command)
         {
             Person person = await peopleRepository.GetAsync(id);
@@ -110,6 +117,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Controllers
         }
 
         [HttpDelete("{id}/vaccines/{vaccineId}")]
+        [ValidateModelState]
         public async Task<IActionResult> DeleteVaccine(string id, string vaccineId)
         {
             Person person = await peopleRepository.GetAsync(id);
