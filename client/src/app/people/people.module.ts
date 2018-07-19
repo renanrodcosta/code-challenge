@@ -9,6 +9,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 
 import { PeopleComponent } from "./people.component";
 import { ListPeopleComponent } from './components/list-people/list-people.component';
+import { CreatePersonComponent } from './components/create-person/create-person.component';
 import { RemovePersonComponent } from './components/remove-person/remove-person.component';
 
 import { PeopleService } from "./services/people.service";
@@ -32,6 +33,7 @@ import { SharedModule } from "../shared/shared.module";
   declarations: [
     PeopleComponent,
     ListPeopleComponent,
+    CreatePersonComponent,
     RemovePersonComponent
   ],
   providers: [
