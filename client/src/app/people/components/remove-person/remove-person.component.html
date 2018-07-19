@@ -1,0 +1,18 @@
+<app-header></app-header>
+<div class="container main-container">
+
+    <h2>Remove Person</h2>
+
+    <h3>Are you sure?</h3>
+    <div>
+        <h4>{{ person.name }}, {{ person.age }}</h4>
+        <hr />
+
+        <form novalidate (ngSubmit)="remove()">
+            <div class="form-actions no-color">
+                <input type="submit" value="Remove" class="btn btn-danger" />
+                <a [routerLink]="['/people']" class="btn btn-primary">Back to list</a>
+            </div>
+        </form>
+    </div>
+</div>
