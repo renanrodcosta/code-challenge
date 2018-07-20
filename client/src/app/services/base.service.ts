@@ -9,7 +9,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/throw';
 
 export abstract class BaseService {
-  protected UrlServiceV1: string = "http://localhost:8285/api/v1/";
+  protected UrlServiceV1: string = "http://localhost:8287/api/v1/";
     
     protected extractData(response: any){
         return response.data || {};

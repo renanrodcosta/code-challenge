@@ -14,13 +14,13 @@ services:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null
 
-  azureStorage:
-    image: microsoft/azure-storage-emulator:latest
-    container_name: "azure-storage-emulator"
-    ports:
-      - 10000:10000
-      - 10001:10001
-      - 10002:10002
+  ##azureStorage:
+  ##  image: microsoft/azure-storage-emulator:latest
+  ##  container_name: "azure-storage-emulator"
+  ##  ports:
+  ##    - 10000:10000
+  ##    - 10001:10001
+  ##    - 10002:10002
 
   client:
     image: vaccine.management.client:dev

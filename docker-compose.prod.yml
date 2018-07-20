@@ -17,6 +17,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
-      - "8287:8286"
+      - "8287:8287"
     links:
       - serverApi
