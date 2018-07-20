@@ -2,16 +2,36 @@ version: '3'
 
 services:
 
-  client:
-    image: curso.client:dev
-    build: 
-     context: ./client
-     dockerfile: Dockerfile.dev
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
     volumes:
-    - ./client:/app
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null
+
+  azureStorage:
+    image: microsoft/azure-storage-emulator:latest
+    container_name: "azure-storage-emulator"
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+
+  client:
+    image: vaccine.management.client:dev
+    build: 
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./client:/app
 
   serverApi:
-    image: curso.api:dev
+    image: vaccine.management.api:dev
     build: 
       context: ./server
       dockerfile: Dockerfile.dev
@@ -19,7 +39,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
 
   nginx:
-    image: curso.proxy:dev
+    image: vaccine.management.proxy:dev
     build: 
       context: ./nginx
       dockerfile: Dockerfile.dev

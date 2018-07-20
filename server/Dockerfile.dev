@@ -1,0 +1,12 @@
+FROM microsoft/aspnetcore-build:2.0 AS dotnet-builder
+WORKDIR /app
+COPY . /app
+RUN dotnet restore src/MinhaVida.CodeChallege.VaccinationManagement.API/MinhaVida.CodeChallege.VaccinationManagement.API.csproj
+RUN dotnet publish src/MinhaVida.CodeChallege.VaccinationManagement.API/MinhaVida.CodeChallege.VaccinationManagement.API.csproj -c Release -o /app/publish 
+
+FROM microsoft/aspnetcore:2.0
+WORKDIR /app
+ENV ASPNETCORE_URLS http://*:8286
+EXPOSE 8286
+COPY --from=dotnet-builder /app/publish .
+ENTRYPOINT ["dotnet", "MinhaVida.CodeChallege.VaccinationManagement.API.dll"]
