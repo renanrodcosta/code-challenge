@@ -1,3 +1,31 @@
+ #Resolution
+ 
+ ## Running in Docker
+
+  **Go to the server folder**  
+ ```
+ cd code-challenge
+ ```
+
+ **Docker compose for developement**  
+ ```
+ docker-compose -f docker-compose.dev.yml up --build --scale serverApi=4
+ ```
+
+  **Docker compose for production**  
+ ```
+ docker-compose -f docker-compose.dev.yml up --build --scale serverApi=4
+ ```
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+ ## API documentation in Swagger
+ ```
+ http://localhost:8287/swagger/index.html
+ ```
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
 # Code Challenge EN-US
 
 Well, let we first tell you a pretty short history!
