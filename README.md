@@ -1,4 +1,4 @@
- #Resolution
+ # Resolution
  
  ## Running in Docker
 
