@@ -27,7 +27,7 @@
       <div class="form-group" [ngClass]="{'has-error': displayMessage.age }">
         <label class="col-md-2 control-label">Age</label>
         <div class="col-md-10">
-          <input class="form-control" id="age" type="text" placeholder="Age (required)" formControlName="age" />
+          <input class="form-control" id="age" type="number" placeholder="Age (required)" formControlName="age" />
           <span class="text-danger" *ngIf="displayMessage.age">
             <p [innerHTML]="displayMessage.age"></p>
           </span>
@@ -42,6 +42,6 @@
         </div>
       </div>
     </div>
-
   </form>
+  <h4>Vaccines</h4>
 </div>

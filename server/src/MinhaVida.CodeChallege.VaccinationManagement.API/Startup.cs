@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Configurations;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Filters;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Infrastructure;
 
 namespace MinhaVida.CodeChallege.VaccinationManagement.API
@@ -31,6 +32,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Remove(new XmlDataContractSerializerOutputFormatter());
+                options.Filters.Add(new ErrorFilterAttribute());
             });
 
             services.AddMongo(Configuration.GetSection("Mongo"));

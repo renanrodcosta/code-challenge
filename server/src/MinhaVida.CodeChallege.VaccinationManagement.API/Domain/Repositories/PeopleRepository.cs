@@ -11,8 +11,9 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Repositories
 
         public PeopleRepository(MongoClient client)
         {
-            var database = client.GetDatabase("vaccination-management");
-            people = database.GetCollection<Person>(nameof(people));
+            var opts = new MongoDatabaseSettings { WriteConcern = WriteConcern.Acknowledged };
+            var database = client.GetDatabase("db", opts);            
+            people = database.GetCollection<Person>("people");
         }
 
         public async Task<IEnumerable<Person>> GetAsync()
