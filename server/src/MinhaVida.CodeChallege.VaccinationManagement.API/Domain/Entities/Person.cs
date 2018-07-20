@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Commands.People;
+using MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Exceptions;
 
 namespace MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities
 {
     public class Person
     {
-        protected Person() { }
+        public Person() { }
 
         public Person(PeopleCommand command) =>
             Apply(command);
@@ -27,7 +28,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities
         public void ChangePhoto(string photo)
         {
             if (string.IsNullOrWhiteSpace(photo))
-                throw new ArgumentNullException("Photo is empty!");
+                throw new BusinessException("Photo is empty!");
 
             Photo = photo;
         }
@@ -37,7 +38,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities
             EnsureNotExistVaccine(command.Name, command.Id);
 
             var vaccine = Vaccines.FirstOrDefault(v => v.Id == command.Id);
-            if (vaccine == null) throw new ArgumentNullException("Vaccine not found!");
+            if (vaccine == null) throw new BusinessException("Vaccine not found!");
 
             vaccine.Name = command.Name;
             vaccine.AppliedAt = command.AppliedAt;
@@ -60,7 +61,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities
         public void RemoveVaccine(string id)
         {
             var vaccine = Vaccines.FirstOrDefault(v => v.Id == id);
-            if (vaccine == null) throw new ArgumentNullException("Vaccine not found!");
+            if (vaccine == null) throw new BusinessException("Vaccine not found!");
 
             Vaccines.Remove(vaccine);
         }
@@ -68,14 +69,14 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API.Domain.Entities
         private void EnsureNotExistVaccine(string name)
         {
             var exists = Vaccines.Any(vaccine => vaccine.Name == name);
-            if (exists) throw new ArgumentException($"Already exists vaccine {name}.");
+            if (exists) throw new BusinessException($"Already exists vaccine {name}.");
         }
 
         private void EnsureNotExistVaccine(string name, string id)
         {
             var exists = Vaccines.Any(vaccine => vaccine.Name == name
                                                  && vaccine.Id != id);
-            if (exists) throw new ArgumentException($"Already exists vaccine {name}.");
+            if (exists) throw new BusinessException($"Already exists vaccine {name}.");
         }        
     }
 }
