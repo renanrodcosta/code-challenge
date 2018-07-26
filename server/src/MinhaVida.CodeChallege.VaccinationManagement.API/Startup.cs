@@ -37,6 +37,7 @@ namespace MinhaVida.CodeChallege.VaccinationManagement.API
 
             services.AddMongo(Configuration.GetSection("Mongo"));
             services.Configure<StorageOptions>(Configuration.GetSection("Storage"));
+            services.Configure<PeopleOptions>(Configuration.GetSection("PeopleOptions"));
 
             services.AddSwaggerConfiguration();
             services.AddDependencyInjection();
